@@ -22,7 +22,7 @@ function textCount() {
       data: {word: { value: individualWord}},
     })
       .done(function(data) {
-        addSizedWord(wordsToCount)
+        addSizedWord(individualWord)
         console.log(data)
       })
       .fail(function() {
@@ -33,5 +33,5 @@ function textCount() {
 }
 
 function addSizedWord(unsizedWord) {
-  $("article.word-count").append(unsizedWord).css("font-size","2px")
+  $("article.word-count").css("font-size",`${unsizedWord.length}px`).append(unsizedWord)
 }
