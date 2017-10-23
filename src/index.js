@@ -14,20 +14,22 @@ function topWord(){
 }
 
 function textCount() {
-  let wordsToCount = $("textarea").val()
-  $.ajax({
-    type: "POST",
-    url: "https://wordwatch-api.herokuapp.com/api/v1/words",
-    data: {word: { value: wordsToCount}},
+  let wordsToCount = $("textarea").val().split(" ")
+  wordsToCount.forEach(function(individualWord) {
+    $.ajax({
+      type: "POST",
+      url: "https://wordwatch-api.herokuapp.com/api/v1/words",
+      data: {word: { value: individualWord}},
+    })
+      .done(function(data) {
+        addSizedWord(wordsToCount)
+        console.log(data)
+      })
+      .fail(function() {
+        alert("problem!")
+      })
   })
-  .done(function(data) {
-    addSizedWord(wordsToCount)
-    alert("success")
-    console.log(data)
-  })
-  .fail(function() {
-    alert("problem!")
-  })
+
 }
 
 function addSizedWord(unsizedWord) {
