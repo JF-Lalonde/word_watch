@@ -2,7 +2,8 @@ const $ = require('jquery')
 
 document.addEventListener("DOMContentLoaded", () => {
   topWord()
-  $("button").on("click", sendEachWord)
+  submitForm()
+  listenForEnter()
 })
 
 function topWord(){
@@ -11,6 +12,18 @@ function topWord(){
     let count = Object.values(data.word)
     $("h3").append(`${word} (${count})`)
   })
+}
+
+function listenForEnter() {
+  $("textarea").on("keyup", function(e) {
+    if (e.which === 13) {
+      sendEachWord()
+    }
+  })
+}
+
+function submitForm() {
+  $("button").on("click", sendEachWord)
 }
 
 function sendEachWord() {
@@ -23,14 +36,8 @@ function sendEachWord() {
       url: "https://wordwatch-api.herokuapp.com/api/v1/words",
       data: {word: { value: individualWord}},
     })
-      .done(function(data) {
-      })
-      .fail(function() {
-        alert("problem!")
-      })
   })
   addSizedWord(wordCount)
-
 }
 
 function countOccurences(wordsToCount, wordCount) {
