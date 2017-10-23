@@ -24,13 +24,12 @@ function sendEachWord() {
       data: {word: { value: individualWord}},
     })
       .done(function(data) {
-        addSizedWord(individualWord, wordCount)
-        console.log(data)
       })
       .fail(function() {
         alert("problem!")
       })
   })
+  addSizedWord(wordCount)
 
 }
 
@@ -40,7 +39,10 @@ function countOccurences(wordsToCount, wordCount) {
   }
 }
 
-function addSizedWord(unsizedWord, wordCount) {
-  console.log(wordCount[unsizedWord])
-  $("article.word-count").append(`<span style="font-size:${wordCount[unsizedWord]}px">${unsizedWord}</span>`)
+function addSizedWord(wordCount) {
+  for (let key in wordCount) {
+    if (wordCount.hasOwnProperty(key)) {
+      $("article.word-count").append(`<span style="font-size:${wordCount[key]}px">${key}</span>`)
+    }
+  }
 }
