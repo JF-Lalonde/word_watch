@@ -79,7 +79,8 @@ const $ = __webpack_require__(2)
 
 document.addEventListener("DOMContentLoaded", () => {
   topWord()
-  $("button").on("click", sendEachWord)
+  submitForm()
+  listenForEnter()
 })
 
 function topWord(){
@@ -88,6 +89,18 @@ function topWord(){
     let count = Object.values(data.word)
     $("h3").append(`${word} (${count})`)
   })
+}
+
+function listenForEnter() {
+  $("textarea").on("keyup", function(e) {
+    if (e.which === 13) {
+      sendEachWord()
+    }
+  })
+}
+
+function submitForm() {
+  $("button").on("click", sendEachWord)
 }
 
 function sendEachWord() {
@@ -100,15 +113,8 @@ function sendEachWord() {
       url: "https://wordwatch-api.herokuapp.com/api/v1/words",
       data: {word: { value: individualWord}},
     })
-      .done(function(data) {
-        addSizedWord(individualWord, wordCount)
-        console.log(data)
-      })
-      .fail(function() {
-        alert("problem!")
-      })
   })
-
+  addSizedWord(wordCount)
 }
 
 function countOccurences(wordsToCount, wordCount) {
@@ -117,9 +123,12 @@ function countOccurences(wordsToCount, wordCount) {
   }
 }
 
-function addSizedWord(unsizedWord, wordCount) {
-  console.log(wordCount[unsizedWord])
-  $("article.word-count").css("font-size",`${wordCount[unsizedWord]}px`).append(unsizedWord)
+function addSizedWord(wordCount) {
+  for (let key in wordCount) {
+    if (wordCount.hasOwnProperty(key)) {
+      $("article.word-count").append(`<span style="font-size:${wordCount[key]}px">${key}</span>`)
+    }
+  }
 }
 
 
