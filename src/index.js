@@ -2,7 +2,7 @@ const $ = require('jquery')
 
 document.addEventListener("DOMContentLoaded", () => {
   topWord()
-  $("button").on("click", textCount)
+  $("button").on("click", sendEachWord)
 })
 
 function topWord(){
@@ -13,8 +13,11 @@ function topWord(){
   })
 }
 
-function textCount() {
+function sendEachWord() {
   let wordsToCount = $("textarea").val().split(" ")
+  let wordCount = {}
+  countOccurences(wordsToCount, wordCount)
+  console.log(wordCount)
   wordsToCount.forEach(function(individualWord) {
     $.ajax({
       type: "POST",
@@ -30,6 +33,12 @@ function textCount() {
       })
   })
 
+}
+
+function countOccurences(wordsToCount, wordCount) {
+  for (let i = 0, len = wordsToCount.length; i < len; i++) {
+    wordCount[wordsToCount[i]] = ( wordCount[wordsToCount[i]] || 0) + 1
+  }
 }
 
 function addSizedWord(unsizedWord) {
