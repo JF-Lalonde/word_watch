@@ -20,9 +20,16 @@ function textCount() {
     url: "https://wordwatch-api.herokuapp.com/api/v1/words",
     data: {word: { value: wordsToCount}},
   })
-  .done(function() {
+  .done(function(data) {
+    addSizedWord(wordsToCount)
+    alert("success")
+    console.log(data)
   })
   .fail(function() {
     alert("problem!")
   })
+}
+
+function addSizedWord(unsizedWord) {
+  $("article.word-count").append(unsizedWord).css("font-size","2px")
 }
