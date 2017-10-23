@@ -17,7 +17,6 @@ function sendEachWord() {
   let wordsToCount = $("textarea").val().split(" ")
   let wordCount = {}
   countOccurences(wordsToCount, wordCount)
-  console.log(wordCount)
   wordsToCount.forEach(function(individualWord) {
     $.ajax({
       type: "POST",
@@ -25,7 +24,7 @@ function sendEachWord() {
       data: {word: { value: individualWord}},
     })
       .done(function(data) {
-        addSizedWord(individualWord)
+        addSizedWord(individualWord, wordCount)
         console.log(data)
       })
       .fail(function() {
@@ -41,6 +40,7 @@ function countOccurences(wordsToCount, wordCount) {
   }
 }
 
-function addSizedWord(unsizedWord) {
-  $("article.word-count").css("font-size",`${unsizedWord.length}px`).append(unsizedWord)
+function addSizedWord(unsizedWord, wordCount) {
+  console.log(wordCount[unsizedWord])
+  $("article.word-count").append(`<span style="font-size:${wordCount[unsizedWord]}px">${unsizedWord}</span>`)
 }
